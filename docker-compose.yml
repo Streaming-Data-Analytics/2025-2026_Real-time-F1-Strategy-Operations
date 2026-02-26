@@ -1,4 +1,9 @@
+# infrastructure stack: kafka (message broker) + flink (stream processor).
+# the python producer runs on the host, the flink job jar is submitted into the cluster.
+
 services:
+  # --- kafka cluster (single-broker, zookeeper-based) ---
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.7.1
     container_name: zookeeper
@@ -9,7 +14,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
-    image: wurstmeister/kafka:2.13-2.8.1
+    image: confluentinc/cp-kafka:7.7.1
     container_name: kafka
     depends_on:
       - zookeeper
@@ -18,10 +23,20 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      # dual listeners: INTERNAL for container-to-container (flink -> kafka),
+      # EXTERNAL for host-to-container (python producer -> kafka)
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      # auto-create topics so we don't need manual "kafka-topics --create" for f1-telemetry
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_CREATE_TOPICS: "f1-telemetry:1:1"
+      # replication factor = 1: single-broker dev setup, not suitable for production
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  # --- flink cluster (1 jobmanager + 1 taskmanager) ---
 
   jobmanager:
     image: flink:1.20-java17
@@ -29,7 +44,7 @@ services:
     depends_on:
       - kafka
     ports:
-      - "8081:8081"
+      - "8081:8081"   # flink web ui
     command: jobmanager
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
@@ -42,4 +57,5 @@ services:
     command: taskmanager
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
+      # 2 task slots: enough to run the current single-job pipeline with parallelism
       - TASK_MANAGER_NUMBER_OF_TASK_SLOTS=2
