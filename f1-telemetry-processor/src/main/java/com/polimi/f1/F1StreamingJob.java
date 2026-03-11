@@ -64,6 +64,11 @@ public class F1StreamingJob {
     private static final String KAFKA_BOOTSTRAP = "kafka:29092";
 
     public static void main(String[] args) throws Exception {
+        // parse cli arguments, ex: --pit-loss 22.0 for circuits with shorter pit lane delta
+        ParameterTool params = ParameterTool.fromArgs(args);
+        double pitLoss = params.getDouble("pit-loss", 25.0);
+        LOG.info("Configuration: pit-loss={}", pitLoss);
+
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         // checkpointing every 5s: required for FileSink to commit in-progress part files

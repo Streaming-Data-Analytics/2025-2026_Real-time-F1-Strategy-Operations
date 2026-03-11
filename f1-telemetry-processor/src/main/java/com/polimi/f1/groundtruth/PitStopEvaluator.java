@@ -64,11 +64,11 @@ public class PitStopEvaluator extends KeyedProcessFunction<String, LapEvent, Pit
                 new ListStateDescriptor<>("post-pit-laps", LapEvent.class));
         pitEntryLap = getRuntimeContext().getState(
                 new ValueStateDescriptor<>("pit-entry-lap", LapEvent.class));
+<<<<<<< HEAD
         previousLapPosition = getRuntimeContext().getState(
                 new ValueStateDescriptor<>("previous-lap-position", Types.INT));
+>>>>>>> master
     }
-
-    @Override
     public void processElement(LapEvent lap, Context ctx, Collector<PitStopEvaluationAlert> out) throws Exception {
         Boolean pitted = hasPitted.value();
         Integer prevPos = previousLapPosition.value();

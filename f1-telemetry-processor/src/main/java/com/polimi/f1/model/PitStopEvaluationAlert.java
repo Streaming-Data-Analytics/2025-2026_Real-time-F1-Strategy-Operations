@@ -142,6 +142,30 @@ public class PitStopEvaluationAlert {
         );
     }
 
+    public String getTrackStatusAtPit() { return trackStatusAtPit; }
+    public void setTrackStatusAtPit(String trackStatusAtPit) { this.trackStatusAtPit = trackStatusAtPit; }
+
+    public int getTyreAgeAtPit() { return tyreAgeAtPit; }
+    public void setTyreAgeAtPit(int tyreAgeAtPit) { this.tyreAgeAtPit = tyreAgeAtPit; }
+
+    public Double getGapToCarAheadAtPit() { return gapToCarAheadAtPit; }
+    public void setGapToCarAheadAtPit(Double gapToCarAheadAtPit) { this.gapToCarAheadAtPit = gapToCarAheadAtPit; }
+
+    // csv row, ex: VER,15,2,2,HARD,SUCCESS_DEFEND,1,24,4.832 
+    public String toCsvRow() {
+        return String.join(",",
+                driver,
+                String.valueOf(pitLapNumber),
+                String.valueOf(prePitPosition),
+                String.valueOf(postPitPosition),
+                compound,
+                result.name(),
+                trackStatusAtPit != null ? trackStatusAtPit : "",
+                String.valueOf(tyreAgeAtPit),
+                gapToCarAheadAtPit != null ? String.format("%.3f", gapToCarAheadAtPit) : ""
+        );
+    }
+
     @Override
     public String toString() {
         return String.format(

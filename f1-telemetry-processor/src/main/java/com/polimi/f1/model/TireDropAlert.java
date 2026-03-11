@@ -99,6 +99,19 @@ public class TireDropAlert {
         );
     }
 
+    // csv row, ex: VER,25,SOFT,18,83.421,81.200,2.221
+    public String toCsvRow() {
+        return String.join(",",
+                driver,
+                String.valueOf(lapNumber),
+                compound,
+                String.valueOf(tyreLife),
+                String.format("%.3f", rollingAvg),
+                String.format("%.3f", stintBest),
+                String.format("%.3f", delta)
+        );
+    }
+
     @Override
     public String toString() {
         return String.format(

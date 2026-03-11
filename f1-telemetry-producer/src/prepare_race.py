@@ -194,7 +194,7 @@ def build_driver_telemetry(session, driver: str) -> pd.DataFrame:
         merged["Brake"] = merged["Brake"].astype(int)
 
     merged["Driver"] = driver
-    merged["event_topic"] = TOPIC_TELEMETRY
+    merged["_topic"] = TOPIC_TELEMETRY
     return merged
 
 
@@ -368,7 +368,7 @@ def build_track_status_events(session) -> pd.DataFrame:
     ts_df = ts_df.drop(columns=["Time"])
     ts_df = ts_df.sort_values("Date").reset_index(drop=True)
 
-    ts_df["event_topic"] = TOPIC_TRACK_STATUS
+    ts_df["_topic"] = TOPIC_TRACK_STATUS
     logging.info("Found %d track status events", len(ts_df))
     return ts_df
 
