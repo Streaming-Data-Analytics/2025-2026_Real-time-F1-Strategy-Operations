@@ -20,11 +20,10 @@ import com.polimi.f1.model.TrackStatusCodes;
 public class DropZoneAlert {
 
     public static final String CSV_HEADER
-            = "race,driver,lapNumber,currentPosition,emergencePosition,positionsLost,"
+            = "driver,lapNumber,currentPosition,emergencePosition,positionsLost,"
             + "netRival,physicalCarAhead,gapToPhysicalCar,physicalCarCompound,"
             + "physicalCarTyreLife,trackStatus,pitLoss";
 
-    private String race;
     private String driver;
     private int lapNumber;
     private int currentPosition;
@@ -41,12 +40,11 @@ public class DropZoneAlert {
     public DropZoneAlert() {
     }
 
-    public DropZoneAlert(String race, String driver, int lapNumber, int currentPosition,
+    public DropZoneAlert(String driver, int lapNumber, int currentPosition,
             int emergencePosition, int positionsLost, String netRival,
             String physicalCarAhead, double gapToPhysicalCar,
             String physicalCarCompound, int physicalCarTyreLife,
             String trackStatus, double pitLoss) {
-        this.race = race;
         this.driver = driver;
         this.lapNumber = lapNumber;
         this.currentPosition = currentPosition;
@@ -59,14 +57,6 @@ public class DropZoneAlert {
         this.physicalCarTyreLife = physicalCarTyreLife;
         this.trackStatus = trackStatus;
         this.pitLoss = pitLoss;
-    }
-
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
     }
 
     public String getDriver() {
@@ -169,11 +159,10 @@ public class DropZoneAlert {
         return value != null ? value : "";
     }
 
-    // ex: Italian Grand Prix,VER,25,2,7,5,HAM,STR,6.5,HARD,25,1,22.0
+    // ex: VER,25,2,7,5,HAM,STR,6.5,HARD,25,1,22.0
     // null string fields are emitted as empty cells to keep csv column alignment stable
     public String toCsvRow() {
         return String.join(",",
-                safe(race),
                 safe(driver),
                 String.valueOf(lapNumber),
                 String.valueOf(currentPosition),
@@ -192,9 +181,8 @@ public class DropZoneAlert {
     @Override
     public String toString() {
         return String.format(
-                "DROP ZONE | %s | %s P%d -> P%d (-%d) | Net rival: %s | "
+                "DROP ZONE | %s P%d -> P%d (-%d) | Net rival: %s | "
                 + "Emerges behind: %s (%s L%d) gap=%.1fs | PitLoss=%.1fs (status: %s)",
-                race != null ? race : "?",
                 driver, currentPosition, emergencePosition, positionsLost,
                 netRival != null ? netRival : "P1",
                 physicalCarAhead != null ? physicalCarAhead : "?",

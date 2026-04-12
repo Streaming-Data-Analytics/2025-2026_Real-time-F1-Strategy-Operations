@@ -113,7 +113,7 @@ public class LiftCoastDetector {
                 .within(Duration.ofSeconds(PATTERN_WINDOW_SECONDS));
 
         PatternStream<TelemetryEvent> patternStream = CEP.pattern(
-                cleanTelemetry.keyBy(LiftCoastDetector::telemetryDriverRaceKey),
+                cleanTelemetry.keyBy(TelemetryEvent::getDriver),
                 liftAndCoastPattern
         );
 
@@ -123,7 +123,7 @@ public class LiftCoastDetector {
                     TelemetryEvent li = match.get("lift").get(0);
                     TelemetryEvent br = match.get("coast-brake").get(0);
                     return new LiftCoastAlert(
-                            ft.getRace(), ft.getDriver(), ft.getDate(), li.getDate(),
+                            ft.getDriver(), ft.getDate(), li.getDate(),
                             br.getDate(), ft.getTrackStatus(),
                             ft.getSpeed(), ft.getNGear());
                 })
@@ -138,21 +138,9 @@ public class LiftCoastDetector {
                 .name("Filter Corner Braking");
 
         return rawAlerts
-                .keyBy(LiftCoastDetector::alertDriverRaceKey)
+                .keyBy(LiftCoastAlert::getDriver)
                 .process(new LiftCoastDedup())
                 .name("Lift & Coast Dedup");
-    }
-
-    private static String telemetryDriverRaceKey(TelemetryEvent event) {
-        return safe(event.getRace()) + "|" + safe(event.getDriver());
-    }
-
-    private static String alertDriverRaceKey(LiftCoastAlert alert) {
-        return safe(alert.getRace()) + "|" + safe(alert.getDriver());
-    }
-
-    private static String safe(String value) {
-        return value != null ? value : "";
     }
 
     // suppresses duplicate lift & coast alerts from the same braking zone.
