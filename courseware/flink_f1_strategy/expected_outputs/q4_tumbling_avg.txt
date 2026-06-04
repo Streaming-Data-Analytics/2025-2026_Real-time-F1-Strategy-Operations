@@ -1,0 +1,16 @@
+Q4 LapTimeAverage{race=demo_monza, driver=LEC, windowStartMs=0, windowEndMs=120000, eventCount=1, averageLapTimeMs=82000.00}
+Q4 LapTimeAverage{race=demo_monza, driver=PIA, windowStartMs=0, windowEndMs=120000, eventCount=1, averageLapTimeMs=82300.00}
+Q4 LapTimeAverage{race=demo_monza, driver=VER, windowStartMs=0, windowEndMs=120000, eventCount=1, averageLapTimeMs=82800.00}
+Q4 LapTimeAverage{race=demo_monza, driver=NOR, windowStartMs=0, windowEndMs=120000, eventCount=1, averageLapTimeMs=82600.00}
+Q4 LapTimeAverage{race=demo_monza, driver=NOR, windowStartMs=120000, windowEndMs=240000, eventCount=2, averageLapTimeMs=82450.00}
+Q4 LapTimeAverage{race=demo_monza, driver=LEC, windowStartMs=120000, windowEndMs=240000, eventCount=2, averageLapTimeMs=82400.00}
+Q4 LapTimeAverage{race=demo_monza, driver=PIA, windowStartMs=120000, windowEndMs=240000, eventCount=2, averageLapTimeMs=82300.00}
+Q4 LapTimeAverage{race=demo_monza, driver=VER, windowStartMs=120000, windowEndMs=240000, eventCount=2, averageLapTimeMs=82150.00}
+Q4 LapTimeAverage{race=demo_monza, driver=PIA, windowStartMs=240000, windowEndMs=360000, eventCount=2, averageLapTimeMs=83100.00}
+Q4 LapTimeAverage{race=demo_monza, driver=LEC, windowStartMs=240000, windowEndMs=360000, eventCount=2, averageLapTimeMs=84100.00}
+Q4 LapTimeAverage{race=demo_monza, driver=VER, windowStartMs=240000, windowEndMs=360000, eventCount=2, averageLapTimeMs=83250.00}
+Q4 LapTimeAverage{race=demo_monza, driver=NOR, windowStartMs=240000, windowEndMs=360000, eventCount=2, averageLapTimeMs=82500.00}
+Q4 LapTimeAverage{race=demo_monza, driver=LEC, windowStartMs=360000, windowEndMs=480000, eventCount=1, averageLapTimeMs=83900.00}
+Q4 LapTimeAverage{race=demo_monza, driver=VER, windowStartMs=360000, windowEndMs=480000, eventCount=1, averageLapTimeMs=82000.00}
+Q4 LapTimeAverage{race=demo_monza, driver=PIA, windowStartMs=360000, windowEndMs=480000, eventCount=1, averageLapTimeMs=83200.00}
+Q4 LapTimeAverage{race=demo_monza, driver=NOR, windowStartMs=360000, windowEndMs=480000, eventCount=1, averageLapTimeMs=82200.00}

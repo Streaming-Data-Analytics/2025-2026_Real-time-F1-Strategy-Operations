@@ -1,0 +1,12 @@
+Q3 BestLapUpdate{race=demo_monza, driver=LEC, lapNumber=1, bestLapTimeMs=82000}
+Q3 BestLapUpdate{race=demo_monza, driver=PIA, lapNumber=1, bestLapTimeMs=82300}
+Q3 BestLapUpdate{race=demo_monza, driver=NOR, lapNumber=1, bestLapTimeMs=82600}
+Q3 BestLapUpdate{race=demo_monza, driver=VER, lapNumber=1, bestLapTimeMs=82800}
+Q3 BestLapUpdate{race=demo_monza, driver=LEC, lapNumber=2, bestLapTimeMs=81500}
+Q3 BestLapUpdate{race=demo_monza, driver=PIA, lapNumber=2, bestLapTimeMs=82100}
+Q3 BestLapUpdate{race=demo_monza, driver=VER, lapNumber=2, bestLapTimeMs=82200}
+Q3 BestLapUpdate{race=demo_monza, driver=NOR, lapNumber=2, bestLapTimeMs=82400}
+Q3 BestLapUpdate{race=demo_monza, driver=VER, lapNumber=3, bestLapTimeMs=82100}
+Q3 BestLapUpdate{race=demo_monza, driver=NOR, lapNumber=5, bestLapTimeMs=82300}
+Q3 BestLapUpdate{race=demo_monza, driver=VER, lapNumber=6, bestLapTimeMs=82000}
+Q3 BestLapUpdate{race=demo_monza, driver=NOR, lapNumber=6, bestLapTimeMs=82200}

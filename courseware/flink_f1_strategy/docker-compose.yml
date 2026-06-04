@@ -1,0 +1,8 @@
+services:
+  flink-f1:
+    build: .
+    image: flink-f1-courseware:latest
+    working_dir: /work
+    volumes:
+      - .:/work
+    command: ["all"]

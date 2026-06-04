@@ -1,0 +1,16 @@
+Q7 LapCountAverage{race=demo_monza, driver=LEC, firstLap=1, lastLap=3, eventCount=3, averageLapTimeMs=82266.67}
+Q7 LapCountAverage{race=demo_monza, driver=PIA, firstLap=1, lastLap=3, eventCount=3, averageLapTimeMs=82300.00}
+Q7 LapCountAverage{race=demo_monza, driver=VER, firstLap=1, lastLap=3, eventCount=3, averageLapTimeMs=82366.67}
+Q7 LapCountAverage{race=demo_monza, driver=NOR, firstLap=1, lastLap=3, eventCount=3, averageLapTimeMs=82500.00}
+Q7 LapCountAverage{race=demo_monza, driver=PIA, firstLap=2, lastLap=4, eventCount=3, averageLapTimeMs=82400.00}
+Q7 LapCountAverage{race=demo_monza, driver=LEC, firstLap=2, lastLap=4, eventCount=3, averageLapTimeMs=82933.33}
+Q7 LapCountAverage{race=demo_monza, driver=VER, firstLap=2, lastLap=4, eventCount=3, averageLapTimeMs=82600.00}
+Q7 LapCountAverage{race=demo_monza, driver=NOR, firstLap=2, lastLap=4, eventCount=3, averageLapTimeMs=82533.33}
+Q7 LapCountAverage{race=demo_monza, driver=PIA, firstLap=3, lastLap=5, eventCount=3, averageLapTimeMs=82900.00}
+Q7 LapCountAverage{race=demo_monza, driver=LEC, firstLap=3, lastLap=5, eventCount=3, averageLapTimeMs=83833.33}
+Q7 LapCountAverage{race=demo_monza, driver=VER, firstLap=3, lastLap=5, eventCount=3, averageLapTimeMs=82866.67}
+Q7 LapCountAverage{race=demo_monza, driver=NOR, firstLap=3, lastLap=5, eventCount=3, averageLapTimeMs=82500.00}
+Q7 LapCountAverage{race=demo_monza, driver=PIA, firstLap=4, lastLap=6, eventCount=3, averageLapTimeMs=83133.33}
+Q7 LapCountAverage{race=demo_monza, driver=VER, firstLap=4, lastLap=6, eventCount=3, averageLapTimeMs=82833.33}
+Q7 LapCountAverage{race=demo_monza, driver=LEC, firstLap=4, lastLap=6, eventCount=3, averageLapTimeMs=84033.33}
+Q7 LapCountAverage{race=demo_monza, driver=NOR, firstLap=4, lastLap=6, eventCount=3, averageLapTimeMs=82400.00}
