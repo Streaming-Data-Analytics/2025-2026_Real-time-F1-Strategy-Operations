@@ -16,37 +16,26 @@ import java.time.Duration;
 import java.util.List;
 
 public final class Q12PitReactionWindowCount {
+    private static final Duration IN_ORDER_MATCH_STREAM = Duration.ZERO;
+
     private Q12PitReactionWindowCount() {
     }
 
     public static DataStream<PitReactionCount> build(StreamExecutionEnvironment executionEnvironment,
                                                      List<StrategyEvent> strategyEvents) {
-        WatermarkStrategy<PitReactionMatch> watermarkStrategy = WatermarkStrategy
-                .<PitReactionMatch>forBoundedOutOfOrderness(Duration.ZERO)
-                .withTimestampAssigner((match, previousTimestamp) -> match.pitEventTimeMs);
-
-        return Q10TimedPitPattern.build(executionEnvironment, strategyEvents)
-                .assignTimestampsAndWatermarks(watermarkStrategy)
-                .keyBy(match -> match.race)
-                .window(TumblingEventTimeWindows.of(Time.minutes(10)))
-                .process(new PitReactionCountProcessWindowFunction());
+        // TODO
     }
 
-    private static final class PitReactionCountProcessWindowFunction
+    static WatermarkStrategy<PitReactionMatch> pitReactionWatermarks() {
+        // TODO
+    }
+
+    static final class PitReactionCountProcessWindowFunction
             extends ProcessWindowFunction<PitReactionMatch, PitReactionCount, String, TimeWindow> {
         @Override
         public void process(String race, Context context, Iterable<PitReactionMatch> input,
                             Collector<PitReactionCount> collector) {
-            long count = 0;
-            for (PitReactionMatch ignored : input) {
-                count++;
-            }
-
-            collector.collect(new PitReactionCount(
-                    race,
-                    context.window().getStart(),
-                    context.window().getEnd(),
-                    count));
+            // TODO
         }
     }
 }

@@ -15,29 +15,30 @@ import java.util.List;
 public final class Q9TyreDropDetector {
     private static final double SLOW_LAP_FACTOR = 1.02;
     private static final int ALERT_SLOW_LAPS = 2;
+    private static final String BEST_LAP_TIME_STATE = "bestLapTimeMs";
+    private static final String CONSECUTIVE_SLOW_LAPS_STATE = "consecutiveSlowLaps";
 
     private Q9TyreDropDetector() {
     }
 
     public static DataStream<TyreDropAlert> build(StreamExecutionEnvironment executionEnvironment,
                                                   List<LapEvent> lapEvents) {
-        return executionEnvironment
-                .fromCollection(lapEvents)
-                .keyBy(LapAverageFunctions::driverKey)
-                .process(new TyreDropProcessFunction());
+        // TODO
     }
 
-    private static final class TyreDropProcessFunction
+    static String driverKey(LapEvent lapEvent) {
+        // TODO
+    }
+
+    static final class TyreDropProcessFunction
             extends KeyedProcessFunction<String, LapEvent, TyreDropAlert> {
         private transient ValueState<Long> bestLapTimeMsState;
         private transient ValueState<Integer> consecutiveSlowLapsState;
 
         @Override
         public void open(Configuration configuration) {
-            bestLapTimeMsState = getRuntimeContext().getState(
-                    new ValueStateDescriptor<>("bestLapTimeMs", Long.class));
-            consecutiveSlowLapsState = getRuntimeContext().getState(
-                    new ValueStateDescriptor<>("consecutiveSlowLaps", Integer.class));
+            // Best lap and slow-lap streak are independent for each race + driver key.
+            // TODO
         }
 
         @Override
@@ -45,32 +46,19 @@ public final class Q9TyreDropDetector {
                                    Collector<TyreDropAlert> collector) throws Exception {
             Long bestLapTimeMs = bestLapTimeMsState.value();
             Integer previousSlowLaps = consecutiveSlowLapsState.value();
+            // TODO
+        }
 
-            if (bestLapTimeMs == null) {
-                bestLapTimeMsState.update(lapEvent.lapTimeMs);
-                consecutiveSlowLapsState.update(0);
-                return;
-            }
+        private boolean isSlowComparedWithBest(LapEvent lapEvent, long bestLapTimeMs) {
+            return lapEvent.lapTimeMs > bestLapTimeMs * SLOW_LAP_FACTOR;
+        }
 
-            boolean slowLap = lapEvent.lapTimeMs > bestLapTimeMs * SLOW_LAP_FACTOR;
-            int consecutiveSlowLaps = slowLap ? valueOrZero(previousSlowLaps) + 1 : 0;
+        private boolean isNewBestLap(LapEvent lapEvent, long bestLapTimeMs) {
+            return lapEvent.lapTimeMs < bestLapTimeMs;
+        }
 
-            if (lapEvent.lapTimeMs < bestLapTimeMs) {
-                bestLapTimeMs = lapEvent.lapTimeMs;
-                bestLapTimeMsState.update(bestLapTimeMs);
-            }
-
-            consecutiveSlowLapsState.update(consecutiveSlowLaps);
-
-            if (consecutiveSlowLaps == ALERT_SLOW_LAPS) {
-                collector.collect(new TyreDropAlert(
-                        lapEvent.race,
-                        lapEvent.driver,
-                        lapEvent.lapNumber,
-                        lapEvent.lapTimeMs,
-                        bestLapTimeMs,
-                        consecutiveSlowLaps));
-            }
+        private boolean shouldEmitAlert(int consecutiveSlowLaps) {
+            return consecutiveSlowLaps == ALERT_SLOW_LAPS;
         }
 
         private int valueOrZero(Integer value) {

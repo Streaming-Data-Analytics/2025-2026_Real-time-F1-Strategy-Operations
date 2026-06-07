@@ -21,42 +21,40 @@ public final class Q10TimedPitPattern {
     static final String TYRE_DROP = "TYRE_DROP";
     static final String PIT = "PIT";
     static final String WINDOW_CLOSED = "WINDOW_CLOSED";
+    static final String DROP_STEP = "drop";
+    static final String PIT_STEP = "pit";
+    static final String CLOSED_STEP = "closed";
+    private static final Duration IN_ORDER_STREAM = Duration.ZERO;
 
     private Q10TimedPitPattern() {
     }
 
     public static DataStream<PitReactionMatch> build(StreamExecutionEnvironment executionEnvironment,
                                                      List<StrategyEvent> strategyEvents) {
-        Pattern<StrategyEvent, ?> pitReactionPattern = Pattern
-                .<StrategyEvent>begin("drop")
-                .where(new EventTypeCondition(TYRE_DROP))
-                .followedBy("pit")
-                .where(new EventTypeCondition(PIT))
-                .within(Time.minutes(3));
+        // TODO
+    }
 
-        return selectMatches(keyedEvents(executionEnvironment, strategyEvents), pitReactionPattern);
+    static Pattern<StrategyEvent, ?> pitReactionPattern() {
+        // TODO
     }
 
     static KeyedStream<StrategyEvent, String> keyedEvents(StreamExecutionEnvironment executionEnvironment,
                                                           List<StrategyEvent> strategyEvents) {
-        WatermarkStrategy<StrategyEvent> watermarkStrategy = WatermarkStrategy
-                .<StrategyEvent>forBoundedOutOfOrderness(Duration.ZERO)
-                .withTimestampAssigner((strategyEvent, previousTimestamp) -> strategyEvent.eventTimeMs);
+        // TODO
+    }
 
-        return executionEnvironment
-                .fromCollection(strategyEvents)
-                .assignTimestampsAndWatermarks(watermarkStrategy)
-                .keyBy(Q10TimedPitPattern::strategyKey);
+    static WatermarkStrategy<StrategyEvent> strategyEventWatermarks() {
+        // TODO
     }
 
     static DataStream<PitReactionMatch> selectMatches(KeyedStream<StrategyEvent, String> keyedEvents,
                                                       Pattern<StrategyEvent, ?> pattern) {
         PatternStream<StrategyEvent> patternStream = CEP.pattern(keyedEvents, pattern);
-        return patternStream.select(new PitReactionSelectFunction());
+        // TODO
     }
 
     static String strategyKey(StrategyEvent strategyEvent) {
-        return strategyEvent.race + "|" + strategyEvent.driver;
+        // TODO
     }
 
     static final class EventTypeCondition extends SimpleCondition<StrategyEvent> {
@@ -68,26 +66,15 @@ public final class Q10TimedPitPattern {
 
         @Override
         public boolean filter(StrategyEvent strategyEvent) {
-            return strategyEvent.hasType(expectedType);
+            // TODO
         }
     }
 
-    private static final class PitReactionSelectFunction
+    static final class PitReactionSelectFunction
             implements PatternSelectFunction<StrategyEvent, PitReactionMatch> {
         @Override
         public PitReactionMatch select(Map<String, List<StrategyEvent>> pattern) {
-            StrategyEvent dropEvent = pattern.get("drop").get(0);
-            StrategyEvent pitEvent = pattern.get("pit").get(0);
-            long delayMs = pitEvent.eventTimeMs - dropEvent.eventTimeMs;
-
-            return new PitReactionMatch(
-                    dropEvent.race,
-                    dropEvent.driver,
-                    dropEvent.lapNumber,
-                    pitEvent.lapNumber,
-                    pitEvent.lapNumber - dropEvent.lapNumber,
-                    delayMs,
-                    pitEvent.eventTimeMs);
+            // TODO
         }
     }
 }
