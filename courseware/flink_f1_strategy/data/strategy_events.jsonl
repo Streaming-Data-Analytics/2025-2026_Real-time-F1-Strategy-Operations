@@ -1,0 +1,9 @@
+{"eventTimeMs":240000,"race":"demo_monza","driver":"LEC","lapNumber":4,"eventType":"TYRE_DROP"}
+{"eventTimeMs":300000,"race":"demo_monza","driver":"LEC","lapNumber":5,"eventType":"PIT"}
+{"eventTimeMs":300000,"race":"demo_monza","driver":"PIA","lapNumber":5,"eventType":"TYRE_DROP"}
+{"eventTimeMs":360000,"race":"demo_monza","driver":"NOR","lapNumber":6,"eventType":"TYRE_DROP"}
+{"eventTimeMs":420000,"race":"demo_monza","driver":"VER","lapNumber":7,"eventType":"PIT"}
+{"eventTimeMs":480000,"race":"demo_monza","driver":"VER","lapNumber":8,"eventType":"TYRE_DROP"}
+{"eventTimeMs":540000,"race":"demo_monza","driver":"VER","lapNumber":9,"eventType":"WINDOW_CLOSED"}
+{"eventTimeMs":590000,"race":"demo_monza","driver":"VER","lapNumber":10,"eventType":"PIT"}
+{"eventTimeMs":610000,"race":"demo_monza","driver":"NOR","lapNumber":11,"eventType":"PIT"}

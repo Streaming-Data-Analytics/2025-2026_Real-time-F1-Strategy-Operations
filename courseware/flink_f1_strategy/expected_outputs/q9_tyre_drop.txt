@@ -1,0 +1,1 @@
+Q9 TyreDropAlert{race=demo_monza, driver=LEC, lapNumber=4, lapTimeMs=84000, bestLapTimeMs=81500, consecutiveSlowLaps=2}

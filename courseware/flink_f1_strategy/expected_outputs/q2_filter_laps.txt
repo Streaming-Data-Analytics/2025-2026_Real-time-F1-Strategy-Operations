@@ -1,0 +1,3 @@
+Q2 RiskyLap{race=demo_monza, driver=PIA, lapNumber=5, lapTimeMs=83600, tyreLife=5, compound=MEDIUM}
+Q2 RiskyLap{race=demo_monza, driver=LEC, lapNumber=5, lapTimeMs=84200, tyreLife=5, compound=MEDIUM}
+Q2 RiskyLap{race=demo_monza, driver=LEC, lapNumber=6, lapTimeMs=83900, tyreLife=6, compound=MEDIUM}
