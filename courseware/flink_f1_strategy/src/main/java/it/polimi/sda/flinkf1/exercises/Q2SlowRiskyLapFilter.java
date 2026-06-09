@@ -20,14 +20,20 @@ public final class Q2SlowRiskyLapFilter {
 
     public static DataStream<RiskyLap> build(StreamExecutionEnvironment executionEnvironment,
             List<LapEvent> lapEvents) {
-        // TODO
+        return executionEnvironment
+                // build a bounded stream from the rows loaded by the job
+                .fromCollection(lapEvents)
+                .filter(new RiskyLapCondition())
+                .map(new RiskyLapEvent());
     }
 
     static final class RiskyLapCondition implements FilterFunction<LapEvent> {
 
         @Override
         public boolean filter(LapEvent lapEvent) {
-            // TODO
+            // both conditions must hold for the lap to stay in the stream
+            return lapEvent.tyreLife >= MIN_RISKY_TYRE_LIFE
+                    && lapEvent.lapTimeMs > SLOW_LAP_TIME_MS;
         }
     }
 
@@ -35,7 +41,14 @@ public final class Q2SlowRiskyLapFilter {
 
         @Override
         public RiskyLap map(LapEvent lapEvent) {
-            // TODO
+            // keep only the fields printed by the risky-lap result stream
+            return new RiskyLap(
+                    lapEvent.race,
+                    lapEvent.driver,
+                    lapEvent.lapNumber,
+                    lapEvent.lapTimeMs,
+                    lapEvent.tyreLife,
+                    lapEvent.compound);
         }
     }
 }

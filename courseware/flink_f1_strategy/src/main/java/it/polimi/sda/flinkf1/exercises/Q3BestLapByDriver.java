@@ -20,12 +20,17 @@ public final class Q3BestLapByDriver {
     private Q3BestLapByDriver() {
     }
 
-    public static DataStream<BestLapUpdate> build(StreamExecutionEnvironment executionEnvironment, List<LapEvent> lapEvents) {
-        // TODO
+    public static DataStream<BestLapUpdate> build(StreamExecutionEnvironment executionEnvironment,
+            List<LapEvent> lapEvents) {
+        return executionEnvironment
+                .fromCollection(lapEvents)
+                // state is scoped by race and driver
+                .keyBy(Q3BestLapByDriver::driverKey)
+                .process(new BestLapProcessFunction());
     }
 
     static String driverKey(LapEvent lapEvent) {
-        //
+        return lapEvent.race + "|" + lapEvent.driver;
     }
 
     static final class BestLapProcessFunction
@@ -35,15 +40,26 @@ public final class Q3BestLapByDriver {
 
         @Override
         public void open(Configuration configuration) {
-            // TODO
+            // each key gets its own best lap value
+            bestLapTimeMsState = getRuntimeContext().getState(
+                    new ValueStateDescriptor<>(BEST_LAP_TIME_STATE, Long.class));
         }
 
         @Override
-        public void processElement(LapEvent lapEvent, Context context, Collector<BestLapUpdate> collector) throws Exception {
-            // TODO 
+        public void processElement(LapEvent lapEvent, Context context,
+                Collector<BestLapUpdate> collector) throws Exception {
+            Long bestLapTimeMs = bestLapTimeMsState.value();
+            // emit only the first lap for a driver and later improvements
+            if (isFirstLapForDriver(bestLapTimeMs) || isNewBestLap(lapEvent, bestLapTimeMs)) {
+                bestLapTimeMsState.update(lapEvent.lapTimeMs);
+                collector.collect(new BestLapUpdate(
+                        lapEvent.race,
+                        lapEvent.driver,
+                        lapEvent.lapNumber,
+                        lapEvent.lapTimeMs));
+            }
         }
 
-        //helpers
         private boolean isFirstLapForDriver(Long bestLapTimeMs) {
             return bestLapTimeMs == null;
         }
