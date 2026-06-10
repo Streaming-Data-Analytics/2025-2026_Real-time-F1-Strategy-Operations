@@ -2,6 +2,24 @@
 
 ## Formula 1 pit strategy operations
 
+## Courseware to Flink mapping
+
+| EPL/fire alarm idea           | Flink exercise                     | Flink concept                          |
+| ---------------------------- | ---------------------------------- | -------------------------------------- |
+| filter events                 | Q2 risky laps                      | `filter` and `map`                      |
+| landmark aggregate           | Q3 best lap so far                 | `keyBy` and `ValueState`               |
+| logical tumbling window      | Q4 average over 2 minutes          | event-time tumbling window             |
+| physical tumbling window     | Q5 average every 3 events          | `countWindow(3)`                       |
+| logical sliding window       | Q6 last 4 minutes, every 1 minute  | event-time sliding window              |
+| physical sliding window      | Q7 last 3 events, slide by 1       | `countWindow(3, 1)`                    |
+| logical hopping window       | Q8 4 minutes, advance by 2 minutes | Flink sliding window with larger slide |
+| stateful sequence reasoning  | Q9 tyre degradation                | keyed process function                 |
+| followed-by with timer       | Q10 tyre drop then pit             | Flink CEP `followedBy` and `within`    |
+| every/guard/and-not pattern  | Q11 guarded pit reaction           | Flink CEP `notFollowedBy`              |
+| count derived warning stream | Q12 pit reaction count             | event-time window over CEP matches     |
+| contextual grouping          | Bonus rival context                | session window and sorting             |
+
+
 ## Introduction
 
 This exercise uses Apache Flink and a small Formula 1 strategy scenario.
@@ -1719,22 +1737,4 @@ public final class BonusRivalContextWindow {
 ```
 
 </details>
-
-## Courseware to Flink mapping
-
-| EPL/fire alarm idea          | F1/Flink exercise                  | Flink concept                          |
-| ---------------------------- | ---------------------------------- | -------------------------------------- |
-| filter events                | Q2 risky laps                      | `filter` and `map`                     |
-| landmark aggregate           | Q3 best lap so far                 | `keyBy` and `ValueState`               |
-| logical tumbling window      | Q4 average over 2 minutes          | event-time tumbling window             |
-| physical tumbling window     | Q5 average every 3 events          | `countWindow(3)`                       |
-| logical sliding window       | Q6 last 4 minutes, every 1 minute  | event-time sliding window              |
-| physical sliding window      | Q7 last 3 events, slide by 1       | `countWindow(3, 1)`                    |
-| logical hopping window       | Q8 4 minutes, advance by 2 minutes | Flink sliding window with larger slide |
-| stateful sequence reasoning  | Q9 tyre degradation                | keyed process function                 |
-| followed-by with timer       | Q10 tyre drop then pit             | Flink CEP `followedBy` and `within`    |
-| every/guard/and-not pattern  | Q11 guarded pit reaction           | Flink CEP `notFollowedBy`              |
-| count derived warning stream | Q12 pit reaction count             | event-time window over CEP matches     |
-| contextual grouping          | Bonus rival context                | session window and sorting             |
-
 
