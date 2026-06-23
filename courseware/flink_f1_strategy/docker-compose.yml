@@ -2,6 +2,7 @@ services:
   flink-f1:
     build: .
     image: flink-f1-courseware:latest
+    pull_policy: never
     working_dir: /work
     volumes:
       - .:/work

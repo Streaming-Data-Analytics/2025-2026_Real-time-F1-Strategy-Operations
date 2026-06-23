@@ -4,6 +4,21 @@ Optional project of the [Streaming Data Analytics](https://emanueledellavalle.or
 
 Student: **Pietro Pizzoccheri**
 
+## Course Delivery Entrypoint
+
+The course delivery is in [`courseware/flink_f1_strategy`](courseware/flink_f1_strategy).
+To run the submitted Flink exercise module:
+
+```bash
+cd courseware/flink_f1_strategy
+docker compose build
+docker compose run --rm flink-f1 all
+```
+The main branch doesn't contain solutions so the command will probably fail, using the project-delivery-solutions branch is recommended for a working solution out of the box.
+
+The Docker Compose stack in the repository root is an experimental end-to-end
+simulation stack I used for my thesis.
+
 ## Project Overview
 
 This project designs and implements a real-time pit wall simulation for Formula 1 strategy operations.
@@ -210,20 +225,22 @@ Recent validation highlights (latest full 2023 run):
 ### Manual Steps
 
 ```bash
-# 1) Start infrastructure
-docker compose up -d
+# 1) Build local images and start infrastructure
+mkdir -p data_lake
+chmod -R 777 data_lake 2>/dev/null || true
+docker compose up --build -d
 
-# 2) Build Flink processor
-cd f1-telemetry-processor && mvn clean package -DskipTests && cd ..
+# 2) Submit the Flink job
+docker exec flink-jobmanager flink run -d /opt/flink/usrlib/f1-stream-processor.jar
 
-# 3) Submit job
-docker cp f1-telemetry-processor/target/f1-telemetry-processor-1.0-SNAPSHOT.jar flink-jobmanager:/opt/flink/usrlib/
-docker exec flink-jobmanager flink run -d /opt/flink/usrlib/f1-telemetry-processor-1.0-SNAPSHOT.jar
-
-# 4) Prepare + stream race
-python f1-telemetry-producer/src/prepare_race.py --year 2023 --race "Italian Grand Prix" --session R
-python f1-telemetry-producer/src/stream_race.py --year 2023 --race "Italian Grand Prix" --session R --speed 100
+# 3) Prepare + stream race
+docker compose run --rm producer python f1-telemetry-producer/src/prepare_race.py --year 2023 --race "Italian Grand Prix" --session R
+docker compose run --rm producer python f1-telemetry-producer/src/stream_race.py --year 2023 --race "Italian Grand Prix" --session R --speed 100
 ```
+
+If using the legacy hyphenated CLI, replace `docker compose` with `docker-compose`.
+If Docker reports `pull access denied for f1-flink-processor` or `f1-python-app`,
+force the local build with `docker compose up --build -d`.
 
 Flink UI: `http://localhost:8081`  
 Dashboard: `http://localhost:8501`
