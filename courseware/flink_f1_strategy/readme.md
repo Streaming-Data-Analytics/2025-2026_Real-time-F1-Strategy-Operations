@@ -52,6 +52,13 @@ Each question contains the query, the Flink version, and the execution mode.
 - a shell opened in `courseware/flink_f1_strategy`
 - no local Java, Maven, Kafka, FastF1, or race data when using Docker
 
+From the repository root, enter this folder first:
+
+```bash
+cd courseware/flink_f1_strategy
+```
+
+
 Build the image:
 
 ```bash
@@ -1737,4 +1744,3 @@ public final class BonusRivalContextWindow {
 ```
 
 </details>
-

@@ -44,6 +44,7 @@ services:
       context: ./f1-telemetry-processor
       dockerfile: Dockerfile
     image: f1-flink-processor
+    pull_policy: never
     container_name: flink-jobmanager
     depends_on:
       - kafka
@@ -60,6 +61,7 @@ services:
       context: ./f1-telemetry-processor
       dockerfile: Dockerfile
     image: f1-flink-processor
+    pull_policy: never
     container_name: flink-taskmanager
     depends_on:
       - jobmanager
@@ -81,6 +83,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: f1-python-app
+    pull_policy: never
     container_name: f1-dashboard
     depends_on:
       - kafka
@@ -99,6 +102,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: f1-python-app
+    pull_policy: never
     depends_on:
       - kafka
     environment:
